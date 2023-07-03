@@ -14,7 +14,8 @@ class PhotoViewGestureDetector extends StatelessWidget {
     this.child,
     this.onTapUp,
     this.onTapDown,
-    this.behavior,
+    this.behavior, 
+    this.scrollSpeed,
   }) : super(key: key);
 
   final GestureDoubleTapCallback? onDoubleTap;
@@ -30,6 +31,29 @@ class PhotoViewGestureDetector extends StatelessWidget {
   final Widget? child;
 
   final HitTestBehavior? behavior;
+
+  final double? scrollSpeed;
+
+  void _onPointerSignal(PointerSignalEvent event) {
+    if (!(event is PointerScrollEvent) || scrollSpeed == null) {
+      return;
+    }
+
+    onScaleStart?.call(
+      ScaleStartDetails(
+        focalPoint: event.position,
+      ),
+    );
+    onScaleUpdate?.call(ScaleUpdateDetails(
+      focalPoint: event.position,
+      scale: event.scrollDelta.dy > 0 ? 1 - scrollSpeed! : 1 + scrollSpeed!,
+    ));
+    onScaleEnd?.call(
+      ScaleEndDetails(
+        velocity: Velocity.zero,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +99,10 @@ class PhotoViewGestureDetector extends StatelessWidget {
 
     return RawGestureDetector(
       behavior: behavior,
-      child: child,
+      child: Listener(
+        child: child,
+        onPointerSignal: _onPointerSignal,
+      ),
       gestures: gestures,
     );
   }

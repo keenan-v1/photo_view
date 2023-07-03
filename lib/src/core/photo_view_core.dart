@@ -43,6 +43,7 @@ class PhotoViewCore extends StatefulWidget {
     required this.disableGestures,
     required this.enablePanAlways,
     required this.strictScale,
+    required this.scrollSpeed,
   })  : customChild = null,
         super(key: key);
 
@@ -66,6 +67,7 @@ class PhotoViewCore extends StatefulWidget {
     required this.disableGestures,
     required this.enablePanAlways,
     required this.strictScale,
+    required this.scrollSpeed,
   })  : imageProvider = null,
         semanticLabel = null,
         gaplessPlayback = false,
@@ -94,6 +96,8 @@ class PhotoViewCore extends StatefulWidget {
   final bool disableGestures;
   final bool enablePanAlways;
   final bool strictScale;
+
+  final double? scrollSpeed;
 
   final FilterQuality filterQuality;
 
@@ -153,8 +157,9 @@ class PhotoViewCoreState extends State<PhotoViewCore>
     final double newScale = _scaleBefore! * details.scale;
     final Offset delta = details.focalPoint - _normalizedPosition!;
 
-    if (widget.strictScale && (newScale > widget.scaleBoundaries.maxScale ||
-        newScale < widget.scaleBoundaries.minScale)) {
+    if (widget.strictScale &&
+        (newScale > widget.scaleBoundaries.maxScale ||
+            newScale < widget.scaleBoundaries.minScale)) {
       return;
     }
 
@@ -358,6 +363,7 @@ class PhotoViewCoreState extends State<PhotoViewCore>
               onScaleStart: onScaleStart,
               onScaleUpdate: onScaleUpdate,
               onScaleEnd: onScaleEnd,
+              scrollSpeed: widget.scrollSpeed,
               hitDetector: this,
               onTapUp: widget.onTapUp != null
                   ? (details) => widget.onTapUp!(context, details, value)

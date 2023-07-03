@@ -44,6 +44,7 @@ class CommonExampleRouteWrapper extends StatelessWidget {
           filterQuality: filterQuality,
           disableGestures: disableGestures,
           errorBuilder: errorBuilder,
+          scrollSpeed: 0.20,
         ),
       ),
     );

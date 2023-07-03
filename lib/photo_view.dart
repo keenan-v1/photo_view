@@ -263,6 +263,7 @@ class PhotoView extends StatefulWidget {
     this.errorBuilder,
     this.enablePanAlways,
     this.strictScale,
+    this.scrollSpeed,
   })  : child = null,
         childSize = null,
         super(key: key);
@@ -299,6 +300,7 @@ class PhotoView extends StatefulWidget {
     this.disableGestures,
     this.enablePanAlways,
     this.strictScale,
+    this.scrollSpeed,
   })  : errorBuilder = null,
         imageProvider = null,
         semanticLabel = null,
@@ -404,8 +406,8 @@ class PhotoView extends StatefulWidget {
   /// Quality levels for image filters.
   final FilterQuality? filterQuality;
 
-  // Removes gesture detector if `true`.
-  // Useful when custom gesture detector is used in child widget.
+  /// Removes gesture detector if `true`.
+  /// Useful when custom gesture detector is used in child widget.
   final bool? disableGestures;
 
   /// Enable pan the widget even if it's smaller than the hole parent widget.
@@ -414,6 +416,10 @@ class PhotoView extends StatefulWidget {
 
   /// Enable strictScale will restrict user scale gesture to the maxScale and minScale values.
   final bool? strictScale;
+
+  /// Scroll speed of scroll events triggered by a pointer device (e.g a mouse).
+  /// Leaving this `null` will disable scroll events from pointer devices.
+  final double? scrollSpeed;
 
   bool get _isCustomChild {
     return child != null;
@@ -536,6 +542,7 @@ class _PhotoViewState extends State<PhotoView>
                 disableGestures: widget.disableGestures,
                 enablePanAlways: widget.enablePanAlways,
                 strictScale: widget.strictScale,
+                scrollSpeed: widget.scrollSpeed,
               )
             : ImageWrapper(
                 imageProvider: widget.imageProvider!,
@@ -564,6 +571,7 @@ class _PhotoViewState extends State<PhotoView>
                 errorBuilder: widget.errorBuilder,
                 enablePanAlways: widget.enablePanAlways,
                 strictScale: widget.strictScale,
+                scrollSpeed: widget.scrollSpeed,
               );
       },
     );
